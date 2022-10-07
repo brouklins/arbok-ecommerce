@@ -2,32 +2,32 @@ openapi: 3.0.0
 info:
   title: Produto - Arbok Ecommerce
   version: 1.0.0
-  description: APIs responsible for managing all informations about Products
+  description: APIs responsible for managing all informations about items
 servers:
-  - url: "https://dev-lb.xxxxxx.com/product"
+  - url: "https://dev-lb.xxxxxx.com/item"
     description: DEV
-  - url: "https://qa-lb.xxxxxxx.com/product"
+  - url: "https://qa-lb.xxxxxxx.com/item"
     description: QA
-  - url: "https://prd-lb.xxxxx.com/product"
-    description: Production
+  - url: "https://prd-lb.xxxxx.com/item"
+    description: itemion
 tags:
-  - name: Product
-    x-displayName: Product
-    description: Product management
+  - name: Item
+    x-displayName: Item
+    description: Item management
   # - name: Application
   #   x-displayName: Application
   #   description: Applications management
 
 paths:
-  /v1/product:
+  /v1/item:
     post:
       tags:
-        - Product
-      summary: Create a new Product
+        - Item
+      summary: Create a new item
       
         
       requestBody:
-        $ref: "#/components/requestBodies/ProductRequestBody"
+        $ref: "#/components/requestBodies/itemRequestBody"
       responses:
         200:
           description: Object created successfully
@@ -35,7 +35,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/item"
         400:
           $ref: "#/components/responses/400"
         403:
@@ -44,14 +44,14 @@ paths:
           $ref: "#/components/responses/500"
     get:
       tags:
-        - Product
-      summary: Get a list of Products
+        - Item
+      summary: Get a list of items
       parameters:
         - $ref: "#/components/parameters/Page"
         - $ref: "#/components/parameters/Limit"
         - $ref: "#/components/parameters/Sort"
         - $ref: "#/components/parameters/SortType"
-        - $ref: "#/components/parameters/ProductIdList"
+        - $ref: "#/components/parameters/itemIdList"
         - $ref: "#/components/parameters/StockIdQuery"
         - $ref: "#/components/parameters/Status"
         - $ref: "#/components/parameters/CreatedAtStart"
@@ -64,7 +64,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Product"
+                  $ref: "#/components/schemas/item"
           headers:
             Accept-Ranges:
               description: Max number of objects returned at once
@@ -91,11 +91,11 @@ paths:
         500:
           $ref: "#/components/responses/500"
 
-  /v1/product/{id}:
+  /v1/item/{id}:
     get:
       tags:
-        - Product
-      summary: Get Product by Id
+        - Item
+      summary: Get item by Id
       parameters:
       #  - $ref: "#/components/parameters/Relationship-Type"
       #  - $ref: "#/components/parameters/Relationship-Id"
@@ -106,7 +106,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/item"
         400:
           $ref: "#/components/responses/400"
         403:
@@ -117,14 +117,14 @@ paths:
           $ref: "#/components/responses/500"
     put:
       tags:
-        - Product
-      summary: Update Product
+        - Item
+      summary: Update Item
       parameters:
         #- $ref: "#/components/parameters/Relationship-Type"
         #- $ref: "#/components/parameters/Relationship-Id"
         - $ref: "#/components/parameters/Id"
       requestBody:
-        $ref: "#/components/requestBodies/ProductRequestBody"
+        $ref: "#/components/requestBodies/itemRequestBody"
       responses:
         204:
           description: Object updated successfully
@@ -138,8 +138,8 @@ paths:
           $ref: "#/components/responses/500"
     delete:
       tags:
-        - Product
-      summary: Delete Product
+        - Item
+      summary: Delete Item
       parameters:
         #- $ref: "#/components/parameters/Relationship-Type"
         #- $ref: "#/components/parameters/Relationship-Id"
@@ -154,17 +154,17 @@ paths:
         500:
           $ref: "#/components/responses/500"
 
-  /v1/product/{id}/status:
+  /v1/item/{id}/status:
     patch:
       tags:
-        - Product
-      summary: Update Product status
+        - Item
+      summary: Update Item status
       parameters:
         #- $ref: "#/components/parameters/Relationship-Type"
         #- $ref: "#/components/parameters/Relationship-Id"
         - $ref: "#/components/parameters/Id"
       requestBody:
-        $ref: "#/components/requestBodies/UpdateStatusProduct"
+        $ref: "#/components/requestBodies/UpdateStatusitem"
       responses:
         204:
           description: Updated status
@@ -177,34 +177,7 @@ paths:
         500:
           $ref: "#/components/responses/500"
 
-  # /v1/applications/{applicationId}/catalogs:
-  #   get:
-  #     tags:
-  #       - Application
-  #     summary: Get an application catalogs
-  #     parameters:
-  #       - $ref: "#/components/parameters/Relationship-Type"
-  #       - $ref: "#/components/parameters/Relationship-Id"
-  #       - $ref: "#/components/parameters/ApplicationId"
-  #     responses:
-  #       200:
-  #         description: Object returned successfully
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: array
-  #               items:
-  #                 properties:
-  #                   id:
-  #                     $ref: "#/components/schemas/Id"
-  #       400:
-  #         $ref: "#/components/responses/400"
-  #       403:
-  #         $ref: "#/components/responses/403"
-  #       404:
-  #         $ref: "#/components/responses/404"
-  #       500:
-  #         $ref: "#/components/responses/500"
+
 
 security:
   - bearerAuth: []
@@ -217,16 +190,16 @@ components:
       bearerFormat: JWT
 
   requestBodies:
-    ProductRequestBody:
-      description: Product request data
+    itemRequestBody:
+      description: item request data
       required: true
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Product"
+            $ref: "#/components/schemas/item"
 
-    UpdateStatusProduct:
-      description: "Update status Product"
+    UpdateStatusitem:
+      description: "Update status item"
       required: true
       content:
         application/json:
@@ -249,7 +222,7 @@ components:
       in: path
       name: id
       required: true
-      description: Product identifier
+      description: item identifier
       schema:
         $ref: "#/components/schemas/Id"
 
@@ -317,11 +290,11 @@ components:
       schema:
         $ref: "#/components/schemas/CreatedAt"
 
-    ProductIdList:
+    itemIdList:
       in: query
       explode: false
-      name: productId
-      description: List of product ids.
+      name: itemId
+      description: List of item ids.
       schema:
         type: array
         minItems: 1
@@ -366,17 +339,17 @@ components:
 
     Name:
       type: string
-      description: Unique name of the Product
+      description: Unique name of the item
       example: Caneca Star Wars
 
     Description:
       type: string
-      description: Product description
+      description: item description
       example: Caneca preta Star Wars, com capacidade de 300 ml.
 
     Brand:
       type: string
-      description: Tag product
+      description: Tag item
       example: Estrela
 
     Category:
@@ -395,12 +368,12 @@ components:
 
     Rating:
       type: string
-      description: Qualification of product 
+      description: Qualification of item 
       example: 9.5
 
     Price:
       type: string
-      description: Price of product 
+      description: Price of item 
       example: 100,00
 
     Status:
@@ -410,7 +383,7 @@ components:
       enum:
         - ACTIVE
         - INACTIVE
-      description: Status product
+      description: Status item
       example: ACTIVE
 
     CreatedAt:
@@ -427,7 +400,7 @@ components:
       description: Object update date.
       example: 2021-11-16 15:06:51
 
-    Product:
+    item:
       type: object
       required:
         - name
