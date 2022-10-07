@@ -1,0 +1,538 @@
+openapi: 3.0.0
+info:
+  title: Produto - Arbok Ecommerce
+  version: 1.0.0
+  description: APIs responsible for managing all informations about Products
+servers:
+  - url: "https://dev-lb.xxxxxx.com/product"
+    description: DEV
+  - url: "https://qa-lb.xxxxxxx.com/product"
+    description: QA
+  - url: "https://prd-lb.xxxxx.com/product"
+    description: Production
+tags:
+  - name: Product
+    x-displayName: Product
+    description: Product management
+  # - name: Application
+  #   x-displayName: Application
+  #   description: Applications management
+
+paths:
+  /v1/product:
+    post:
+      tags:
+        - Product
+      summary: Create a new Product
+      
+        
+      requestBody:
+        $ref: "#/components/requestBodies/ProductRequestBody"
+      responses:
+        200:
+          description: Object created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Product"
+        400:
+          $ref: "#/components/responses/400"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+    get:
+      tags:
+        - Product
+      summary: Get a list of Products
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Sort"
+        - $ref: "#/components/parameters/SortType"
+        - $ref: "#/components/parameters/ProductIdList"
+        - $ref: "#/components/parameters/StockIdQuery"
+        - $ref: "#/components/parameters/Status"
+        - $ref: "#/components/parameters/CreatedAtStart"
+        - $ref: "#/components/parameters/CreatedAtEnd"
+      responses:
+        200:
+          description: Object returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+          headers:
+            Accept-Ranges:
+              description: Max number of objects returned at once
+              schema:
+                type: integer
+                example: 30
+            Content-Range:
+              description: Total found
+              schema:
+                type: string
+                example: 12850
+            Total-Pages:
+              description: |
+                Total pages for the number of records and found.
+
+                `Important`: The total number of pages will be calculated based on the total number of records found and the limit received how parameter
+              schema:
+                type: integer
+                example: 10
+        400:
+          $ref: "#/components/responses/400"
+        403:
+          $ref: "#/components/responses/403"
+        500:
+          $ref: "#/components/responses/500"
+
+  /v1/product/{id}:
+    get:
+      tags:
+        - Product
+      summary: Get Product by Id
+      parameters:
+      #  - $ref: "#/components/parameters/Relationship-Type"
+      #  - $ref: "#/components/parameters/Relationship-Id"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        200:
+          description: Object returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        400:
+          $ref: "#/components/responses/400"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Product
+      summary: Update Product
+      parameters:
+        #- $ref: "#/components/parameters/Relationship-Type"
+        #- $ref: "#/components/parameters/Relationship-Id"
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        $ref: "#/components/requestBodies/ProductRequestBody"
+      responses:
+        204:
+          description: Object updated successfully
+        400:
+          $ref: "#/components/responses/400"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+    delete:
+      tags:
+        - Product
+      summary: Delete Product
+      parameters:
+        #- $ref: "#/components/parameters/Relationship-Type"
+        #- $ref: "#/components/parameters/Relationship-Id"
+        - $ref: "#/components/parameters/Id"
+      responses:
+        204:
+          description: Object successfully removed
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+
+  /v1/product/{id}/status:
+    patch:
+      tags:
+        - Product
+      summary: Update Product status
+      parameters:
+        #- $ref: "#/components/parameters/Relationship-Type"
+        #- $ref: "#/components/parameters/Relationship-Id"
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        $ref: "#/components/requestBodies/UpdateStatusProduct"
+      responses:
+        204:
+          description: Updated status
+        400:
+          $ref: "#/components/responses/400"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        500:
+          $ref: "#/components/responses/500"
+
+  # /v1/applications/{applicationId}/catalogs:
+  #   get:
+  #     tags:
+  #       - Application
+  #     summary: Get an application catalogs
+  #     parameters:
+  #       - $ref: "#/components/parameters/Relationship-Type"
+  #       - $ref: "#/components/parameters/Relationship-Id"
+  #       - $ref: "#/components/parameters/ApplicationId"
+  #     responses:
+  #       200:
+  #         description: Object returned successfully
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 properties:
+  #                   id:
+  #                     $ref: "#/components/schemas/Id"
+  #       400:
+  #         $ref: "#/components/responses/400"
+  #       403:
+  #         $ref: "#/components/responses/403"
+  #       404:
+  #         $ref: "#/components/responses/404"
+  #       500:
+  #         $ref: "#/components/responses/500"
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  requestBodies:
+    ProductRequestBody:
+      description: Product request data
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Product"
+
+    UpdateStatusProduct:
+      description: "Update status Product"
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+            properties:
+              status:
+                type: string
+                format: enum
+                enum:
+                  - ACTIVE
+                  - INACTIVE
+                description: Status catalog
+                example: ACTIVE
+
+  parameters:
+    Id:
+      in: path
+      name: id
+      required: true
+      description: Product identifier
+      schema:
+        $ref: "#/components/schemas/Id"
+
+    ApplicationId:
+      in: path
+      name: applicationId
+      required: true
+      description: Application identifier
+      schema:
+        $ref: "#/components/schemas/StockId"
+
+    Page:
+      in: query
+      name: page
+      description: Number of the page where pagination starts.
+      schema:
+        type: integer
+        format: int32
+        default: 1
+        minimum: 1
+
+    Limit:
+      in: query
+      name: limit
+      description: Limit results per page.
+      schema:
+        type: integer
+        format: int32
+        default: 10
+        minimum: 1
+
+    Sort:
+      in: query
+      name: sort
+      description: Field to perform the sorting.
+      schema:
+        type: string
+        enum:
+          - name
+          - createdAt
+        default: createdAt
+
+    SortType:
+      in: query
+      name: sortType
+      description: Sorting type in search.
+      schema:
+        type: string
+        default: DESC
+        enum:
+          - ASC
+          - DESC
+
+    CreatedAtStart:
+      in: query
+      name: createdAtStart
+      description: Filtering by start date of record creation
+      schema:
+        $ref: "#/components/schemas/CreatedAt"
+
+    CreatedAtEnd:
+      in: query
+      name: createdAtEnd
+      description: Filtering by end date of record creation
+      schema:
+        $ref: "#/components/schemas/CreatedAt"
+
+    ProductIdList:
+      in: query
+      explode: false
+      name: productId
+      description: List of product ids.
+      schema:
+        type: array
+        minItems: 1
+        items:
+          $ref: "#/components/schemas/Id"
+
+    StockIdQuery:
+      in: query
+      name: applicationId
+      description: Application identifier
+      schema:
+        $ref: "#/components/schemas/StockId"
+
+    Status:
+      in: query
+      name: status
+      description: Status Catalog
+      schema:
+        type: string
+        default: ACTIVE
+        enum:
+          - ACTIVE
+          - INACTIVE
+
+   
+
+  schemas:
+    Id:
+      type: string
+      format: uuid
+      readOnly: true
+      description: Unique identifier of the object, it must be used in the change and delete operations.
+      example: 838489f9-c288-4ec8-9008-e2a8a62b2869
+
+
+    StockId:
+      type: string
+      format: uuid
+      readOnly: true
+      description: Identifier of the Stock
+      example: 838489f9-c288-4ec8-9008-e2a8a62b2869
+
+    Name:
+      type: string
+      description: Unique name of the Product
+      example: Caneca Star Wars
+
+    Description:
+      type: string
+      description: Product description
+      example: Caneca preta Star Wars, com capacidade de 300 ml.
+
+    Brand:
+      type: string
+      description: Tag product
+      example: Estrela
+
+    Category:
+      type: string
+      description: Tag category
+      example: Utensilios
+
+    
+
+    Stock:
+      type: array
+      uniqueItems: true
+      description: List of stocks
+      items:
+        $ref: "#/components/schemas/StockId"
+
+    Rating:
+      type: string
+      description: Qualification of product 
+      example: 9.5
+
+    Price:
+      type: string
+      description: Price of product 
+      example: 100,00
+
+    Status:
+      type: string
+      format: enum
+      readOnly: true
+      enum:
+        - ACTIVE
+        - INACTIVE
+      description: Status product
+      example: ACTIVE
+
+    CreatedAt:
+      type: string
+      readOnly: true
+      format: date-time
+      description: Object creation date.
+      example: 2021-11-16 15:06:51
+
+    UpdatedAt:
+      type: string
+      readOnly: true
+      format: date-time
+      description: Object update date.
+      example: 2021-11-16 15:06:51
+
+    Product:
+      type: object
+      required:
+        - name
+        - category
+        - brand
+        - description
+        - stock
+        - rating
+        - price
+        # - applications
+        - status
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          $ref: "#/components/schemas/Name"
+        category:
+          $ref: "#/components/schemas/Category"
+        description:
+          $ref: "#/components/schemas/Description"
+        brand:
+          $ref: "#/components/schemas/Brand"
+        stock:
+          $ref: "#/components/schemas/Stock"
+        rating:
+          $ref: "#/components/schemas/Rating"
+        price:
+          $ref: "#/components/schemas/Price"
+        status:
+          $ref: "#/components/schemas/Status"
+        createdAt:
+          $ref: "#/components/schemas/CreatedAt"
+        updatedAt:
+          $ref: "#/components/schemas/UpdatedAt"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Simple message to identify the problem
+        code:
+          type: string
+          description: Http Code
+        message:
+          type: string
+          description: Error description
+        details:
+          items:
+            type: array
+        timestamp:
+          type: string
+          format: date-time
+          description: Error timestamp
+          items:
+            $ref: "#/components/schemas/ErrorDetail"
+
+    ErrorDetail:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Attribute error name
+        message:
+          type: string
+          description: Description of the error for that attribute
+        value:
+          type: string
+          description: Received value
+
+  responses:
+    400:
+      description: |
+        Problem with the data in the request.
+
+        The application cannot or will not process the request due to something perceived as a client error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    404:
+      description: "Resource requested not found"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    403:
+      description: |
+        Error response if the client informs an invalid `access_token` in the request.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    422:
+      description: |
+        Request violates some business rule.
+
+        The application understands the request content type, and the request syntax is correct, but it was not possible to process the instructions present.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    500:
+      description: "Some unexpected error has occurred."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
