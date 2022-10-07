@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "778ddb52-b9ec-41c5-8348-2d64a3c57cc7",
+		"name": "Item",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12513904"
+	},
+	"item": [
+		{
+			"name": "Incluir item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Caneca Star Wars\",\n  \"category\": \"Utensilios\",\n  \"description\": \"Caneca preta Star Wars, com capacidade de 300 ml.\",\n  \"brand\": \"Estrela\",\n  \"stock\": [\n    \"838489f9-c288-4ec8-9008-e2a8a62b2869\"\n  ],\n  \"rating\": \"9.5\",\n  \"price\": \"100,00\"\n}"
+				},
+				"url": {
+					"raw": "https://dev-lb.xxxxxx.com/item/v1/item",
+					"protocol": "https",
+					"host": [
+						"dev-lb",
+						"xxxxxx",
+						"com"
+					],
+					"path": [
+						"item",
+						"v1",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar itens",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://dev-lb.xxxxxx.com/item/v1/item?page=1&limit=10&sort=createdAt&sortType=DESC&itemId=838489f9-c288-4ec8-9008-e2a8a62b2869,838489f9-c288-4ec8-9008-e2a8a62b2868&category=Utensilios&stockId=838489f9-c288-4ec8-9008-e2a8a62b2869&status=ACTIVE&createdAtStart=2021-11-16%2015%3A06%3A51&createdAtEnd=2021-11-16%2015%3A06%3A51",
+					"protocol": "https",
+					"host": [
+						"dev-lb",
+						"xxxxxx",
+						"com"
+					],
+					"path": [
+						"item",
+						"v1",
+						"item"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "sort",
+							"value": "createdAt"
+						},
+						{
+							"key": "sortType",
+							"value": "DESC"
+						},
+						{
+							"key": "itemId",
+							"value": "838489f9-c288-4ec8-9008-e2a8a62b2869,838489f9-c288-4ec8-9008-e2a8a62b2868"
+						},
+						{
+							"key": "category",
+							"value": "Utensilios"
+						},
+						{
+							"key": "stockId",
+							"value": "838489f9-c288-4ec8-9008-e2a8a62b2869"
+						},
+						{
+							"key": "status",
+							"value": "ACTIVE"
+						},
+						{
+							"key": "createdAtStart",
+							"value": "2021-11-16%2015%3A06%3A51"
+						},
+						{
+							"key": "createdAtEnd",
+							"value": "2021-11-16%2015%3A06%3A51"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar item",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://dev-lb.xxxxxx.com/item/v1/item/:id",
+					"protocol": "https",
+					"host": [
+						"dev-lb",
+						"xxxxxx",
+						"com"
+					],
+					"path": [
+						"item",
+						"v1",
+						"item",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar item",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Caneca Star Wars\",\n  \"category\": \"Utensilios\",\n  \"description\": \"Caneca preta Star Wars, com capacidade de 300 ml.\",\n  \"brand\": \"Estrela\",\n  \"stock\": [\n    \"838489f9-c288-4ec8-9008-e2a8a62b2869\"\n  ],\n  \"rating\": \"9.5\",\n  \"price\": \"100,00\"\n}"
+				},
+				"url": {
+					"raw": "https://dev-lb.xxxxxx.com/item/v1/item/:id",
+					"protocol": "https",
+					"host": [
+						"dev-lb",
+						"xxxxxx",
+						"com"
+					],
+					"path": [
+						"item",
+						"v1",
+						"item",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apagar item",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "https://dev-lb.xxxxxx.com/item/v1/item/:id",
+					"protocol": "https",
+					"host": [
+						"dev-lb",
+						"xxxxxx",
+						"com"
+					],
+					"path": [
+						"item",
+						"v1",
+						"item",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar status",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"status\": \"ACTIVE\"\n}"
+				},
+				"url": {
+					"raw": "https://dev-lb.xxxxxx.com/item/v1/item/:id/status",
+					"protocol": "https",
+					"host": [
+						"dev-lb",
+						"xxxxxx",
+						"com"
+					],
+					"path": [
+						"item",
+						"v1",
+						"item",
+						":id",
+						"status"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

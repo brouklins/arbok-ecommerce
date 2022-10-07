@@ -52,6 +52,7 @@ paths:
         - $ref: "#/components/parameters/Sort"
         - $ref: "#/components/parameters/SortType"
         - $ref: "#/components/parameters/itemIdList"
+        - $ref: "#/components/parameters/Category"
         - $ref: "#/components/parameters/StockIdQuery"
         - $ref: "#/components/parameters/Status"
         - $ref: "#/components/parameters/CreatedAtStart"
@@ -226,9 +227,9 @@ components:
       schema:
         $ref: "#/components/schemas/Id"
 
-    ApplicationId:
+    StockId:
       in: path
-      name: applicationId
+      name: stockId
       required: true
       description: Application identifier
       schema:
@@ -301,9 +302,16 @@ components:
         items:
           $ref: "#/components/schemas/Id"
 
+    Category:
+      in: query
+      name: category
+      description: Application identifier
+      schema:
+        $ref: "#/components/schemas/Category"      
+
     StockIdQuery:
       in: query
-      name: applicationId
+      name: stockId
       description: Application identifier
       schema:
         $ref: "#/components/schemas/StockId"
